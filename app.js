@@ -97,6 +97,8 @@ form.addEventListener("submit", (event) => {
 
 // Load new on start
 function loadNews() {
+  showLoader();
+
   const country = countrySelect.value;
   const searchText = newsSearch.value;
 
@@ -124,6 +126,7 @@ function onGetResponse(error, response) {
   }
 
   renderNews(response.articles);
+  spinnerRemove();
 }
 
 // Function to render a news
@@ -172,3 +175,25 @@ function articleTemplate(article) {
 document.addEventListener("DOMContentLoaded", function () {
   loadNews();
 });
+
+// Show loader function
+function showLoader() {
+  const spinnerContainer = document.querySelector(".spinner-container");
+  spinnerContainer.insertAdjacentHTML(
+    "afterbegin",
+    `
+      <div class="spinner spinner-border mt-5" role="status">
+        <span class="visually-hidden">Loading...</span>
+      </div>
+  `
+  );
+}
+
+// Function to delete the spinner
+function spinnerRemove() {
+  const spinner = document.querySelector(".spinner");
+
+  if (spinner) {
+    spinner.remove();
+  }
+}
