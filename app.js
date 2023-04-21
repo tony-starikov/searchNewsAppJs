@@ -83,9 +83,28 @@ const newsService = (function () {
   };
 })();
 
+// UI Elements
+const form = document.forms["searchForm"];
+const countrySelect = form.elements["countrySelect"];
+const newsSearch = form.elements["newsSearch"];
+console.log(newsSearch);
+
+// Event listeners
+form.addEventListener("submit", (event) => {
+  event.preventDefault();
+  loadNews();
+});
+
 // Load new on start
 function loadNews() {
-  newsService.topHeadlines("ua", onGetResponse);
+  const country = countrySelect.value;
+  const searchText = newsSearch.value;
+
+  if (!searchText) {
+    newsService.topHeadlines(country, onGetResponse);
+  } else {
+    newsService.everything(searchText, onGetResponse);
+  }
 }
 
 // Function on get response from server
@@ -124,7 +143,9 @@ function articleTemplate(article) {
                 </p>
               </div>
               <div class="card-footer">
-                <a href="${article.url}" target="_blank" class="btn btn-success">Read</a>
+                <a href="${
+                  article.url
+                }" target="_blank" class="btn btn-success">Read</a>
               </div>
             </div>
           </div>

@@ -11,17 +11,16 @@
     <nav class="navbar navbar-dark bg-warning navbar-expand-lg">
       <div class="container">
         <a class="navbar-brand text-dark fw-bold" href="#">SearchNewsApp</a>
-        <form class="d-flex" role="search">
+        <form class="d-flex" id="searchForm" role="search">
           <div class="row">
             <div class="col-12 col-md-5 mt-md-0 mt-2">
-              <select class="form-select shadow-none" id="country-select">
-                <option value="default" selected>Country</option>
+              <select class="form-select shadow-none" id="countrySelect">
                 <option value="ua">Ukraine</option>
                 <option value="us">United States</option>
               </select>
             </div>
             <div class="col-12 col-md-5 mt-md-0 mt-2">
-              <input class="form-control shadow-none me-2" type="search" placeholder="Search" aria-label="Search">
+              <input class="form-control shadow-none me-2" id="newsSearch" type="search" placeholder="Search" aria-label="Search">
             </div>
             <div class="col-12 col-md-2 mt-md-0 mt-2">
               <button class="btn btn-success shadow-none" type="submit">Search</button>
