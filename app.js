@@ -61,3 +61,79 @@ function http() {
 
 // init http module
 const myHttp = http();
+
+// init news service
+const newsService = (function () {
+  const apiKey = "71722164e94d46b7925d3d996d9e16f2";
+  const apiUrl = "https://newsapi.org/v2";
+
+  return {
+    topHeadlines(country = "ua", callBackFunction) {
+      myHttp.get(
+        `${apiUrl}/top-headlines?country=${country}&category=technology&apiKey=${apiKey}`,
+        callBackFunction
+      );
+    },
+    everything(query, callBackFunction) {
+      myHttp.get(
+        `${apiUrl}/everything?q=${query}&apiKey=${apiKey}`,
+        callBackFunction
+      );
+    },
+  };
+})();
+
+// Load new on start
+function loadNews() {
+  newsService.topHeadlines("ua", onGetResponse);
+}
+
+// Function on get response from server
+function onGetResponse(error, response) {
+  renderNews(response.articles);
+}
+
+// Function to render a news
+function renderNews(news) {
+  console.log(news);
+  const newsContainer = document.querySelector(".news-container");
+  newsContainer.innerHTML = "";
+
+  let fragment = "";
+
+  news.forEach((article) => {
+    const template = articleTemplate(article);
+    fragment += template;
+  });
+
+  newsContainer.insertAdjacentHTML("afterbegin", fragment);
+}
+
+// Function to create new template
+function articleTemplate(article) {
+  const template = `
+          <div class="col-12 col-md-6 col-lg-4 mt-5">
+            <div class="card h-100">
+              <img src="${
+                article.urlToImage || "https://placehold.co/600x400"
+              }" class="card-img-top img-fluid" alt="...">
+              <div class="card-body">
+                <h5 class="card-title">${article.title || "Empty title"}</h5>
+                <p class="card-text">
+                  ${article.description || "Empty description"}
+                </p>
+              </div>
+              <div class="card-footer">
+                <a href="${article.url}" target="_blank" class="btn btn-success">Read</a>
+              </div>
+            </div>
+          </div>
+  `;
+
+  return template;
+}
+
+// Init events on content loaded
+document.addEventListener("DOMContentLoaded", function () {
+  loadNews();
+});
