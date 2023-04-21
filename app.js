@@ -109,6 +109,20 @@ function loadNews() {
 
 // Function on get response from server
 function onGetResponse(error, response) {
+  if (error) {
+    const toastTemplateError = document.getElementById("liveToastError");
+    const toastError = new bootstrap.Toast(toastTemplateError);
+    toastError.show();
+    return;
+  }
+
+  if (!response.articles.length) {
+    const toastTemplateMessage = document.getElementById("liveToastMessage");
+    const toastMessage = new bootstrap.Toast(toastTemplateMessage);
+    toastMessage.show();
+    return;
+  }
+
   renderNews(response.articles);
 }
 
